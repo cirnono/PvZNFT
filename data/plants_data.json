@@ -1,0 +1,15 @@
+{
+    "Sunflower": {
+      "hp": 50,
+      "produceRate": 3,
+      "attack": 0,
+      "metadataURI": "ipfs://QmExampleSunflowerMetadata"
+    },
+    "Peashooter": {
+      "hp": 100,
+      "produceRate": 0,
+      "attack": 30,
+      "metadataURI": "ipfs://QmExamplePeashooterMetadata"
+    }
+  }
+  
