@@ -1,7 +1,7 @@
 const { ethers, getNamedAccounts } = require("hardhat")
 const plantFeatures = require("../utils/plantFeatures.js")
-require("dotenv").config()
 const contract = require("../utils/contractAddress.js")
+require("dotenv").config()
 
 async function mintPlant() {
     const PvZNFT = await ethers.getContractAt("PvZNFT", contract.address)
@@ -31,8 +31,6 @@ async function mintPlant() {
             Math.floor(Math.random() * (range.max - range.min + 1)) + range.min
     }
 
-    console.log(deployer, plantType, attributes)
-
     try {
         const tx = await PvZNFT.mintPlant(
             deployer,
@@ -46,11 +44,30 @@ async function mintPlant() {
         const receipt = await tx.wait()
 
         const tokenId = receipt.events[0].args.tokenId.toString()
-        message += `ID: ${tokenId}`
+
+        message += ` ID: ${tokenId}`
         for (const [key, value] of Object.entries(attributes)) {
             message += `, ${key}: ${value}`
         }
         console.log(message)
+
+        //plant
+        const plantEvent = receipt.events.find(
+            (event) => event.event === "PlantMinted"
+        )
+
+        // 获取并打印植物属性
+        if (plantEvent) {
+            const { tokenId, plantType, hp, produceRate, attack } =
+                plantEvent.args
+
+            console.log("我是植物:")
+            console.log(`Token ID: ${tokenId}`)
+            console.log(`Plant Type: ${plantType}`)
+            console.log(`HP: ${hp}`)
+            console.log(`Produce Rate: ${produceRate}`)
+            console.log(`Attack: ${attack}`)
+        }
     } catch (error) {
         console.error("❌ Minting failed:", error)
     }

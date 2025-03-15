@@ -17,6 +17,8 @@ To deploy to a local hardhat testnet, open a terminal and run:
 yarn hardhat node
 ``` 
 
+record the address of the deployed contract and update the scripts accordingly
+
 Open another terminal while leaving the first one running the hardhat nodes with lists of accounts
 Deploy a nft generator PvZNFT.sol, to be used for minting NFTs:
 
