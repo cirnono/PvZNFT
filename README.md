@@ -1,45 +1,52 @@
-# Sample Hardhat Project
+# PvZNFT
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+A project used to strength understanding to hardhat and solidity while learning
 
-To start:
-
+## To start:
 ```shell
 yarn
 yarn hardhat compile
 ```
 
-
-
-
-To deploy to a local hardhat testnet, open a terminal and run:
+## To deploy to a local hardhat testnet
+1. Start a new terminal and run
 ```shell
 yarn hardhat node
-``` 
-
-record the address of the deployed contract and update the scripts accordingly
-
-Open another terminal while leaving the first one running the hardhat nodes with lists of accounts
-Deploy a nft generator PvZNFT.sol, to be used for minting NFTs:
-
+```
+2. Create your .env file and record the private keys to .env. By default, the first account is the deployer
+3. Start a new terminal while keeping the first terminal alive
+4. Run
 ```shell
 yarn deploy:local
 ```
+if you need to re-deploy, run
+```shell
+yarn deploy:local --reset
+```
+5. Record the contract address to utils/contractAddress.js (auto record will be implemented in the future)
 
-To mint plant NFT:
+## To interact with the deployed contract
+1. To mint an NFT, run
 ```shell
 yarn mint
 ```
-use yarn mint --network <network_name> to interact with contract deployed at certain network
-e.g. yarn mint --network localhost if trying to interact with a local node
-
-To run the game:
+the default network is hardhat, you can specify the network by --network <network_name>.
+e.g.
 ```shell
-yarn hardhat run scripts/gameLogics.js
+yarn mint --network localhost
 ```
+to interact with the contract deployed on the local hardhat node
 
-To check game status:
-
+2. To check balance of the user, run
 ```shell
 yarn hardhat run scripts/getGameState.js
 ```
+
+## TODOs
+1. Implement game-logic.js, which starts the game, allow players to play with their own NFTs and verify the the provided NFTs
+2. Write tests
+3. Front-end
+
+## Take-aways:
+1. function returns of solidiy is in the form of storing address, need to .toString() to convert to actual value
+2. To use hard-had deploy, need ethers@5.7.2

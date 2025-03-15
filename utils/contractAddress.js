@@ -1,5 +1,5 @@
 module.exports = {
-    address: "0x09635F643e140090A9A8Dcd712eD6285858ceBef",
+    address: "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB",
     ownTokenId: [1, 2, 3, 4, 5, 6],
 }
 

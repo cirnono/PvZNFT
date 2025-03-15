@@ -9,7 +9,6 @@ contract PvZNFT is ERC721URIStorage  {
     // 事件定义
     event PlantMinted(uint256 tokenId, string plantType, uint256 hp, uint256 produceRate, uint256 attack);
 
-    
     struct Plant {
         string plantType; // 记录植物类型，如 "Sunflower"、"Peashooter"
         uint256 hp;
@@ -39,9 +38,7 @@ contract PvZNFT is ERC721URIStorage  {
 
         plantData[newTokenId] = Plant(plantType, hp, produceRate, attack);
         // 在 mintPlant 中触发事件
-        emit PlantMinted(newTokenId, plantType, hp, produceRate, attack);
-
-
+        emit PlantMinted(newTokenId, plantData[newTokenId].plantType, plantData[newTokenId].hp, plantData[newTokenId].produceRate, plantData[newTokenId].attack);
         return (newTokenId);
     }
 

@@ -19,10 +19,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const PvZNFT = await deploy("PvZNFT", {
         from: deployer,
         args: [],
-        log: true,
+        log: false,
         waitConfirmations: network.config.blockConfirmations || 1,
     })
-    log(`PvZNFT deployed at ${PvZNFT.target}`)
+    log(`PvZNFT deployed at ${PvZNFT.address}`)
 
     if (
         !developmentChains.includes(network.name) &&

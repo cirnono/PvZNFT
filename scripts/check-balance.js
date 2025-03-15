@@ -15,8 +15,12 @@ async function checkBalance() {
 
     for (let i = 0; i < plantIds.length; i++) {
         let id = plantIds[i]
-        const { type, hp, rate, attack } = await PvZNFT.getPlant(id)
-        console.log(`Plant ID: ${id}, ${type}, ${hp}, ${rate}, ${attack}`)
+
+        const result = await PvZNFT.getPlant(id)
+
+        console.log(
+            `Plant ID: ${id}, ${result[0]}, ${result[1]}, ${result[2]}, ${result[3]}`
+        )
     }
 }
 
