@@ -44,8 +44,9 @@ yarn hardhat run scripts/getGameState.js
 
 ## TODOs
 1. Implement game-logic.js, which starts the game, allow players to play with their own NFTs and verify the the provided NFTs
-2. Write tests
-3. Front-end
+2. Implement scripts that auto record contract address, player's address and the token ids they own.
+3. Write tests
+4. Front-end
 
 ## Take-aways:
 1. function returns of solidiy is in the form of storing address, need to .toString() to convert to actual value
