@@ -21,15 +21,15 @@ Open another terminal while leaving the first one running the hardhat nodes with
 Deploy a nft generator PvZNFT.sol, to be used for minting NFTs:
 
 ```shell
-yarn hardhat run scripts/01-deploy-PvZNFT.js
+yarn deploy:local
 ```
-
-
 
 To mint plant NFT:
 ```shell
-yarn hardhat run scripts/mintPlant.js
+yarn mint
 ```
+use yarn mint --network <network_name> to interact with contract deployed at certain network
+e.g. yarn mint --network localhost if trying to interact with a local node
 
 To run the game:
 ```shell

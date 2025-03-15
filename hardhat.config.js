@@ -32,6 +32,8 @@ module.exports = {
         localhost: {
             url: "http://127.0.0.1:8545/",
             chainId: 31337,
+            gas: 5000000,
+            gasPrice: 20000000000,
         },
     },
     etherscan: {

@@ -1,14 +1,14 @@
 const { ethers, getNamedAccounts } = require("hardhat")
 const plantFeatures = require("../utils/plantFeatures.js")
 require("dotenv").config()
+const contract = require("../utils/contractAddress.js")
 
 async function mintPlant() {
-    const { deployer } = await getNamedAccounts()
-    const PvZNFT = await ethers.getContract("PvZNFT", deployer)
+    const PvZNFT = await ethers.getContractAt("PvZNFT", contract.address)
 
     console.log(`Got contract PvZNFT at ${PvZNFT.address}`)
     console.log("Available plants: ", Object.keys(plantFeatures).join(", "))
-    const plantType = await gameLogic.prompt("Enter plant type: ")
+    const plantType = await prompt("Enter plant type: ")
 
     if (!plantFeatures[plantType]) {
         console.log("Invalid plant type!")
@@ -17,34 +17,36 @@ async function mintPlant() {
 
     const mintFee = ethers.utils.parseEther("0.1")
 
-    const [signer] = await ethers.getSigners()
-    console.log("Minting new plant for address: ", signer.address)
+    const { deployer } = await getNamedAccounts()
+    console.log("Minting new plant for address: ", deployer)
 
-    const metadataURI = plantConfig[plantType].metadataURI
-    const message = plantConfig[plantType].message
+    const metadataURI = plantFeatures[plantType].metadataURI
+    let message = plantFeatures[plantType].message
     let attributes = {}
 
     for (const [key, range] of Object.entries(
-        plantFeatures[plantType].randomAttributes
+        plantFeatures[plantType].attributes
     )) {
         attributes[key] =
             Math.floor(Math.random() * (range.max - range.min + 1)) + range.min
     }
 
+    console.log(deployer, plantType, attributes)
+
     try {
         const tx = await PvZNFT.mintPlant(
-            deployer.address,
+            deployer,
             plantType,
             attributes.hp || 0,
             attributes.produceRate || 0,
             attributes.attack || 0,
             metadataURI,
-            { value: mintFee }
+            { value: mintFee, gasLimit: 500000 }
         )
         const receipt = await tx.wait()
 
         const tokenId = receipt.events[0].args.tokenId.toString()
-        message += `ID: ${tokenID}`
+        message += `ID: ${tokenId}`
         for (const [key, value] of Object.entries(attributes)) {
             message += `, ${key}: ${value}`
         }
