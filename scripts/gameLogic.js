@@ -1,121 +1,136 @@
-const { ethers, getNamedAccounts } = require("hardhat");
-require("dotenv").config();
+const { ethers, getNamedAccounts } = require("hardhat")
+require("dotenv").config()
 
-const GRID_ROWS = 5;
-const GRID_COLS = 8;
-let sunlight = 100;
-let gameBoard = Array.from({ length: GRID_ROWS }, () => Array(GRID_COLS).fill("."));
-let plantsOnBoard = {};
-let zombies = [];
-let turn = 1;
+const GRID_ROWS = 5
+const GRID_COLS = 8
+let sunlight = 100
+let gameBoard = Array.from({ length: GRID_ROWS }, () =>
+    Array(GRID_COLS).fill(".")
+)
+let plantsOnBoard = {}
+let zombies = []
+let turn = 1
 
 async function runGame() {
-    const { deployer } = await getNamedAccounts();
-    const pvzContract = await ethers.getContract("PvZNFT", deployer);
-    console.log("\n🌿 Welcome to PvZ Blockchain Edition! 🌿\n");
-    
+    const { deployer } = await getNamedAccounts()
+    const pvzContract = await ethers.getContract("PvZNFT", deployer)
+    console.log("\n🌿 Welcome to PvZ Blockchain Edition! 🌿\n")
+
     while (true) {
-        console.clear();
-        printBoard();
-        console.log(`\n🌞 Sunlight: ${sunlight}`);
-        console.log("\n📜 Options:");
-        console.log("1. Deploy a plant");
-        console.log("2. Skip turn");
-        
-        const choice = await prompt("Select an option: ");
-        
+        console.clear()
+        printBoard()
+        console.log(`\n🌞 Sunlight: ${sunlight}`)
+        console.log("\n📜 Options:")
+        console.log("1. Deploy a plant")
+        console.log("2. Skip turn")
+
+        const choice = await prompt("Select an option: ")
+
         if (choice === "1") {
-            await deployPlant(pvzContract);
+            await deployPlant(pvzContract)
         }
 
-        processPlants();
-        processZombies();
-        if (turn % 5 === 0) spawnZombie();
+        processPlants()
+        processZombies()
+        if (turn % 5 === 0) spawnZombie()
 
-        turn++;
+        turn++
     }
 }
 
 async function deployPlant(contract) {
-    console.log("Available plants: Sunflower, Peashooter");
-    const plantType = await prompt("Enter plant type: ");
-    const row = parseInt(await prompt("Enter row (0-4): "), 10);
-    const col = parseInt(await prompt("Enter column (0-7): "), 10);
-    
-    if (row < 0 || row >= GRID_ROWS || col < 0 || col >= GRID_COLS || gameBoard[row][col] !== ".") {
-        console.log("Invalid position!");
-        return;
+    console.log("Available plants: Sunflower, Peashooter")
+    const plantType = await prompt("Enter plant type: ")
+    const row = parseInt(await prompt("Enter row (0-4): "), 10)
+    const col = parseInt(await prompt("Enter column (0-7): "), 10)
+
+    if (
+        row < 0 ||
+        row >= GRID_ROWS ||
+        col < 0 ||
+        col >= GRID_COLS ||
+        gameBoard[row][col] !== "."
+    ) {
+        console.log("Invalid position!")
+        return
     }
 
     const plantData = {
-        "Sunflower": { hp: 50, cost: 50, produceRate: 3, attack: 0 },
-        "Peashooter": { hp: 100, cost: 100, produceRate: 0, attack: 30 }
-    };
+        Sunflower: { hp: 50, cost: 50, produceRate: 3, attack: 0 },
+        Peashooter: { hp: 100, cost: 100, produceRate: 0, attack: 30 },
+    }
 
     if (!plantData[plantType]) {
-        console.log("Invalid plant type!");
-        return;
+        console.log("Invalid plant type!")
+        return
     }
 
     if (sunlight < plantData[plantType].cost) {
-        console.log("Not enough sunlight!");
-        return;
+        console.log("Not enough sunlight!")
+        return
     }
 
-    sunlight -= plantData[plantType].cost;
-    gameBoard[row][col] = plantType[0];
-    plantsOnBoard[`${row},${col}`] = { ...plantData[plantType] };
+    sunlight -= plantData[plantType].cost
+    gameBoard[row][col] = plantType[0]
+    plantsOnBoard[`${row},${col}`] = { ...plantData[plantType] }
 }
 
 function processPlants() {
     Object.keys(plantsOnBoard).forEach((pos) => {
-        const [row, col] = pos.split(",").map(Number);
-        const plant = plantsOnBoard[pos];
+        const [row, col] = pos.split(",").map(Number)
+        const plant = plantsOnBoard[pos]
         // 阳光生产逻辑不对
         if (plant.produceRate > 0) {
-            sunlight += 100;
+            sunlight += 100
         }
         // 攻击逻辑
-    });
+    })
 }
 
 function spawnZombie() {
-    const row = Math.floor(Math.random() * GRID_ROWS);
-    zombies.push({ row, col: GRID_COLS - 1, hp: 100 });
+    const row = Math.floor(Math.random() * GRID_ROWS)
+    zombies.push({ row, col: GRID_COLS - 1, hp: 100 })
 }
 
 function processZombies() {
     zombies.forEach((zombie, index) => {
-        const nextCol = zombie.col - 1;
+        const nextCol = zombie.col - 1
         if (nextCol >= 0 && gameBoard[zombie.row][nextCol] !== ".") {
-            const plantKey = `${zombie.row},${nextCol}`;
+            const plantKey = `${zombie.row},${nextCol}`
             if (plantsOnBoard[plantKey]) {
-                plantsOnBoard[plantKey].hp -= 20;
+                plantsOnBoard[plantKey].hp -= 20
                 if (plantsOnBoard[plantKey].hp <= 0) {
-                    delete plantsOnBoard[plantKey];
-                    gameBoard[zombie.row][nextCol] = ".";
+                    delete plantsOnBoard[plantKey]
+                    gameBoard[zombie.row][nextCol] = "."
                 }
             }
         } else {
-            zombies[index].col = nextCol;
+            zombies[index].col = nextCol
         }
-    });
+    })
 }
 
 function printBoard() {
-    console.log("\nCurrent Board:");
-    gameBoard.forEach((row) => console.log(row.join(" ")));
+    console.log("\nCurrent Board:")
+    gameBoard.forEach((row) => console.log(row.join(" ")))
 }
 
 async function prompt(question) {
     const readline = require("readline").createInterface({
         input: process.stdin,
-        output: process.stdout
-    });
-    return new Promise((resolve) => readline.question(question, (ans) => {
-        readline.close();
-        resolve(ans);
-    }));
+        output: process.stdout,
+    })
+    return new Promise((resolve) =>
+        readline.question(question, (ans) => {
+            readline.close()
+            resolve(ans)
+        })
+    )
 }
 
-runGame().catch(console.error);
+runGame()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })

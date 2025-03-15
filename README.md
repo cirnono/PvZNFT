@@ -9,43 +9,35 @@ yarn
 yarn hardhat compile
 ```
 
+
+
+
+To deploy to a local hardhat testnet, open a terminal and run:
+```shell
+yarn hardhat node
+``` 
+
+Open another terminal while leaving the first one running the hardhat nodes with lists of accounts
 Deploy a nft generator PvZNFT.sol, to be used for minting NFTs:
 
 ```shell
-yarn hardhat ignition deploy --network sepolia
+yarn hardhat run scripts/01-deploy-PvZNFT.js
 ```
+
+
 
 To mint plant NFT:
-
-```shell
-node scripts/mintPlant.js
-```
-
-or
-
 ```shell
 yarn hardhat run scripts/mintPlant.js
+```
+
+To run the game:
+```shell
+yarn hardhat run scripts/gameLogics.js
 ```
 
 To check game status:
 
 ```shell
-node scripts/getGameState.js
-```
-
-or 
-
-```shell
 yarn hardhat run scripts/getGameState.js
-```
-
-To run the game:
-```shell
-node scripts/gameLogics.js
-```
-
-or 
-
-```shell
-yarn hardhat run scripts/gameLogics.js
 ```
