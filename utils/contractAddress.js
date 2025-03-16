@@ -1,11 +1,3 @@
 module.exports = {
-    address: "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB",
-    ownTokenId: [1, 2, 3, 4, 5, 6],
+	address: "0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575"
 }
-
-// change it to the address of your deployed contract
-//deploying "PvZNFT" (tx: 0xc292da4969ed70d89d52df1c933bf86d03eac0c856df60c8f382c541300f0d46)...: deployed at 0x8A791620dd6260079BF849Dc5567aDC3F2FdC318 with 2873741 gas
-
-// Minting new plant for address:  0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-// 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 Peashooter { hp: 103, attack: 28 }
-// This guy can't hold back anymore!ID: 1, hp: 103, attack: 28

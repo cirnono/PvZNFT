@@ -6,7 +6,7 @@ module.exports = {
             sunlightAmount: { min: 50, max: 150 }, // 随机 50-150 阳光
         },
         metadataURI: "ipfs://QmExampleSunflowerMetadata",
-        message: `This smiling flower powers your journey!`,
+        message: `This smiling flower powers your journey!\n`,
     },
     Peashooter: {
         attributes: {
@@ -14,7 +14,7 @@ module.exports = {
             attack: { min: 10, max: 40 }, // 随机 10-40 伤害
         },
         metadataURI: "ipfs://QmExamplePeashooterMetadata",
-        message: `This guy can't hold back anymore!`,
+        message: `This guy can't hold back anymore!\n`,
     },
     Wallnut: {
         attributes: {
@@ -22,6 +22,6 @@ module.exports = {
             defense: { min: 10, max: 20 }, // 随机 10-50% 伤害减免
         },
         metadataURI: "ipfs://QmExampleWallnutMetadata",
-        message: `He barely talks, enermies barely pass...`,
+        message: `He barely talks, enermies barely pass...\n`,
     },
 }

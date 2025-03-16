@@ -4,6 +4,7 @@ const contract = require("../utils/contractAddress.js")
 require("dotenv").config()
 
 async function mintPlant() {
+    console.log(contract.address)
     const PvZNFT = await ethers.getContractAt("PvZNFT", contract.address)
 
     console.log(`Got contract PvZNFT at ${PvZNFT.address}`)

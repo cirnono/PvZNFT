@@ -27,7 +27,9 @@ let turn = 1
  */
 async function runGame() {
     const { deployer } = await getNamedAccounts()
-    const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9" // change it to the address of your deployed contract
+    const contractAddress = contract.address // change it to the address of your deployed contract
+    const player = await msg.sender()
+    console.log(player)
 
     const PvZNFT = await ethers.getContractAt("PvZNFT", contractAddress)
     console.log("\n🌿 Welcome to PvZ Blockchain Edition! 🌿\n")
@@ -41,24 +43,16 @@ async function runGame() {
             await deployPlant(pvzContract)
         }
 
+        if (turn % 5 === 0) spawnZombie()
         processPlants()
         processZombies()
-        if (turn % 5 === 0) spawnZombie()
 
         turn++
     }
 }
 
-async function printGetOptions() {
-    console.log(`\n🌞 Sunlight: ${sunlight}`)
-    console.log("\n📜 Options:")
-    console.log("1. Deploy a plant")
-    console.log("2. Skip turn")
-
-    return await prompt("Select an option: ")
-}
-
 async function deployPlant(contract) {
+    //
     console.log("Available plants: Sunflower, Peashooter")
     const plantType = await prompt("Enter plant type: ")
     const row = parseInt(await prompt("Enter row (0-4): "), 10)
@@ -93,6 +87,23 @@ async function deployPlant(contract) {
     sunlight -= plantData[plantType].cost
     gameBoard[row][col] = plantType[0]
     plantsOnBoard[`${row},${col}`] = { ...plantData[plantType] }
+}
+
+// print user's options and get user's choice
+async function printGetOptions() {
+    console.log("\n📜 Options:")
+    console.log("1. Deploy a plant")
+    console.log("2. Skip turn")
+
+    return await prompt("Select an option: ")
+}
+
+// print out the current game board
+function printBoard() {
+    console.log("\nCurrent Board:")
+    gameBoard.forEach((row) => console.log(row.join(" ")))
+    console.log(`\n🌞 Sunlight: ${sunlight}`)
+    // 打印所有植物和僵尸的血量
 }
 
 function processPlants() {
@@ -130,11 +141,7 @@ function processZombies() {
     })
 }
 
-function printBoard() {
-    console.log("\nCurrent Board:")
-    gameBoard.forEach((row) => console.log(row.join(" ")))
-}
-
+// helper function used to get user input
 async function prompt(question) {
     const readline = require("readline").createInterface({
         input: process.stdin,
