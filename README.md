@@ -48,6 +48,7 @@ yarn hardhat run scripts/getGameState.js
 2. Implement scripts that auto record contract address, player's address and the token ids they own.
 3. Write tests
 4. Front-end
+5. NFT trading
 
 ## Take-aways:
 1. function returns of solidiy is in the form of storing address, need to .toString() to convert to actual value

@@ -4,6 +4,34 @@
     "passwordSalt": "66b3423ccd410b1faec28ff3608afde6",
     "passwordHash": "c56f154fc3c982660583782d5948130ca58301cc8a6ddc9b50d9c0f5944fa0a2a00b4ed6095c36f81fcfbfa9b52376844203a82006d0a51ce574aa8be225eeb6",
     "walletAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    "privateKey": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
+    "privateKey": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
+    "ownTokens": []
+  },
+  {
+    "username": "asdf",
+    "passwordSalt": "e056141e3c5a2c134b9da99dcc6a6d0a",
+    "passwordHash": "69fdf4ae7d449831ec2b6f4c586c0675ea954a8b7f9bb80c153c8519a8bf62c45bac2489fef4bad4debb89ef5123b522871300927ecc698405b2962f709120a1",
+    "walletAddress": "asdf",
+    "privateKey": "asdf",
+    "ownTokens": []
+  },
+  {
+    "username": "admin",
+    "passwordSalt": "dbb5f53062abf2b76b54f0ca7ed401fb",
+    "passwordHash": "29c5098d61fe250f41aa35379179de1d5db4b8c7b5e10ebe34ad1ae2c1d2c13a29e49d74cf61e83412624b2646849fbde0649d0f0002cab33ff87734c5ee5eed",
+    "walletAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "privateKey": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+    "ownTokens": [
+      "9",
+      "10"
+    ]
+  },
+  {
+    "username": "player2",
+    "passwordSalt": "8e4545fc14a74e61c2647b081812eaa4",
+    "passwordHash": "ea0e13c056ff25dc7bb198707532275f38518cbcc2497d7e8b52fd915492be18cf0fcc4c248ba1bbcb6c932e72748192bb0d4d382fe3e538c11942ccc71ca98e",
+    "walletAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "privateKey": "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a",
+    "ownTokens": []
   }
 ]

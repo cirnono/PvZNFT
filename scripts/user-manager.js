@@ -1,10 +1,10 @@
 const fs = require("fs")
 const crypto = require("crypto")
 const readline = require("readline")
+const { ripemd160 } = require("ethers/lib/utils")
 
-const USERS_FILE = "user.json" // 用户数据存储的文件
+const USERS_FILE = "./user.json" // 用户数据存储的文件
 
-// 创建接口用于读取用户输入
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -36,7 +36,7 @@ function getUser(username) {
 
 // function used to add new user
 // currently privateKey is stored as plain text, this will be inplemented to dock with user's wallet like metamesk
-function addUser(username, password, walletAddress, privateKey) {
+function addUser(username, password, walletAddress, privateKey, ownTokens) {
     const { salt, hashedPassword } = encryptPassword(password)
     const newUser = {
         username,
@@ -44,6 +44,7 @@ function addUser(username, password, walletAddress, privateKey) {
         passwordHash: hashedPassword,
         walletAddress,
         privateKey,
+        ownTokens,
     }
 
     let users = []
@@ -74,49 +75,68 @@ function login(username, password) {
 }
 
 // 用户注册流程
-function register() {
-    rl.question("Enter username: ", (username) => {
-        if (getUser(username)) {
-            console.log("Username already exists!")
-            rl.close()
-            return
-        }
-
-        rl.question("Enter password: ", (password) => {
-            rl.question("Enter wallet address: ", (walletAddress) => {
-                rl.question("Enter private key: ", (privateKey) => {
-                    addUser(username, password, walletAddress, privateKey)
-                    console.log("User registered successfully!")
-                    rl.close()
+async function register() {
+    return new Promise((resolve, reject) => {
+        rl.question("Enter username: ", (username) => {
+            if (getUser(username)) {
+                console.log("Username already exists!")
+                rl.close()
+                resolve()
+            } else {
+                rl.question("Enter password: ", (password) => {
+                    rl.question("Enter wallet address: ", (walletAddress) => {
+                        rl.question("Enter private key: ", (privateKey) => {
+                            addUser(
+                                username,
+                                password,
+                                walletAddress,
+                                privateKey,
+                                []
+                            )
+                            console.log("User registered successfully!")
+                            const user = login(username, password)
+                            resolve(user)
+                        })
+                    })
                 })
-            })
+            }
         })
     })
 }
 
 // 用户登录流程
-function loginUser() {
-    rl.question("Enter username: ", (username) => {
-        rl.question("Enter password: ", (password) => {
-            const user = login(username, password)
-            if (user) {
-                // 这里你可以返回用户的数据，或者允许进行更多操作
-            }
-            rl.close()
+async function loginUser() {
+    return new Promise((resolve, reject) => {
+        rl.question("Enter username: ", (username) => {
+            rl.question("Enter password: ", (password) => {
+                const user = login(username, password)
+                resolve(user)
+            })
         })
     })
 }
 
 // 主逻辑：选择注册或登录
-function main() {
-    rl.question("Are you a new user? (yes/no): ", (answer) => {
-        if (answer.toLowerCase() === "yes") {
-            register()
-        } else {
-            loginUser()
-        }
+async function accountPrompt() {
+    return new Promise((resolve, reject) => {
+        rl.question("Are you a new user? (yes/no): ", (answer) => {
+            if (answer.toLowerCase() === "yes") {
+                register().then(() => {
+                    rl.close()
+                    resolve()
+                }) // 只有注册完成后才继续
+            } else {
+                loginUser()
+                    .then((user) => {
+                        rl.close()
+                        resolve(user)
+                    })
+                    .catch(reject) // 只有登录完成后才继续
+            }
+        })
     })
 }
 
-// 启动应用
-main()
+module.exports = { accountPrompt, loginUser, register }
+
+// accountPrompt()

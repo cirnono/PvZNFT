@@ -26,7 +26,7 @@ contract PvZNFT is ERC721URIStorage  {
         address player,
         string memory plantType,
         uint256 hp,
-        uint256 produceRate,
+        uint256 produceRate, 
         uint256 attack,
         string memory metadataURI
     ) public payable returns (uint256) {
