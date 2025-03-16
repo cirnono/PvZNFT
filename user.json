@@ -1,0 +1,9 @@
+[
+  {
+    "username": "Cirnono",
+    "passwordSalt": "66b3423ccd410b1faec28ff3608afde6",
+    "passwordHash": "c56f154fc3c982660583782d5948130ca58301cc8a6ddc9b50d9c0f5944fa0a2a00b4ed6095c36f81fcfbfa9b52376844203a82006d0a51ce574aa8be225eeb6",
+    "walletAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "privateKey": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
+  }
+]

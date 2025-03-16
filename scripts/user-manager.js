@@ -2,7 +2,7 @@ const fs = require("fs")
 const crypto = require("crypto")
 const readline = require("readline")
 
-const USERS_FILE = "../utils/users.json" // 用户数据存储的文件
+const USERS_FILE = "user.json" // 用户数据存储的文件
 
 // 创建接口用于读取用户输入
 const rl = readline.createInterface({
@@ -34,7 +34,8 @@ function getUser(username) {
     return users.find((user) => user.username === username)
 }
 
-// 添加新用户
+// function used to add new user
+// currently privateKey is stored as plain text, this will be inplemented to dock with user's wallet like metamesk
 function addUser(username, password, walletAddress, privateKey) {
     const { salt, hashedPassword } = encryptPassword(password)
     const newUser = {
