@@ -121,9 +121,9 @@ async function accountPrompt() {
     return new Promise((resolve, reject) => {
         rl.question("Are you a new user? (yes/no): ", (answer) => {
             if (answer.toLowerCase() === "yes") {
-                register().then(() => {
+                register().then((user) => {
                     rl.close()
-                    resolve()
+                    resolve(user)
                 }) // 只有注册完成后才继续
             } else {
                 loginUser()
