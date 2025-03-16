@@ -12,6 +12,19 @@ let plantsOnBoard = {}
 let zombies = []
 let turn = 1
 
+/**
+ * This function is the game core, the game is run by rounds
+ * Every round, the following is performed
+ * 1. Print out the board and relevant information (Sunlight amount, health of plants and zombies)
+ * 2. Ask user for an action, currently the action would be indicating a plantNFT to be placed at a position
+ * 3. Check the validity of the coordinate and the validity of the NFT (ensure it exist and is owned by this acount)
+ * 4. Deploy the plantNFT
+ * 5. Spawn zombies if condition met (certain round passed)
+ * 6. Process plant actions and update board accordingly
+ * 7. Process zombie actions and update borad accoridngly
+ * 8. Check if game ended
+ * 9. End turn
+ */
 async function runGame() {
     const { deployer } = await getNamedAccounts()
     const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9" // change it to the address of your deployed contract
@@ -22,12 +35,7 @@ async function runGame() {
     while (true) {
         console.clear()
         printBoard()
-        console.log(`\n🌞 Sunlight: ${sunlight}`)
-        console.log("\n📜 Options:")
-        console.log("1. Deploy a plant")
-        console.log("2. Skip turn")
-
-        const choice = await prompt("Select an option: ")
+        const choice = printGetOptions()
 
         if (choice === "1") {
             await deployPlant(pvzContract)
@@ -39,6 +47,15 @@ async function runGame() {
 
         turn++
     }
+}
+
+async function printGetOptions() {
+    console.log(`\n🌞 Sunlight: ${sunlight}`)
+    console.log("\n📜 Options:")
+    console.log("1. Deploy a plant")
+    console.log("2. Skip turn")
+
+    return await prompt("Select an option: ")
 }
 
 async function deployPlant(contract) {
