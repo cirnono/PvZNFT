@@ -2,6 +2,8 @@
 
 A project used to strength understanding to hardhat and solidity while learning
 
+Package used outdagted, to be refractor into foundry version
+
 ## To start:
 ```shell
 yarn
